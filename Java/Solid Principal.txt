@@ -1,0 +1,42 @@
+🔹 SOLID Principles in Java
+
+SOLID is an acronym for five design principles that help write clean, maintainable, and scalable object-oriented code.
+1. S → Single Responsibility Principle (SRP)
+Definition:
+A class should have only one reason to change → only one responsibility.
+Interview Tip:
+"Each class should have a single responsibility to make code easier to maintain and test."
+
+2. O → Open/Closed Principle (OCP)
+
+Definition:
+Software entities (classes, modules) should be open for extension, but closed for modification.
+Interview Tip:
+"We can add new functionality by adding classes, not modifying existing code."
+
+3. L → Liskov Substitution Principle (LSP)
+
+Definition:
+Objects of a subclass should be replaceable with objects of a superclass without breaking the application.
+Solution: Separate flyable birds:
+interface Flyable { void fly(); }
+class Sparrow extends Bird implements Flyable { void fly() { } }
+
+
+Interview Tip:
+"Subtypes should behave as expected without introducing errors in the system."
+
+4. I → Interface Segregation Principle (ISP)
+Definition:
+Clients should not be forced to implement interfaces they don’t use.
+Interview Tip:
+"Keep interfaces small and focused so clients implement only what they need."
+
+5. D → Dependency Inversion Principle (DIP)
+
+Definition:
+High-level modules should not depend on low-level modules; both should depend on abstractions.
+Now, UserService depends on abstraction, not concrete class.
+
+Interview Tip:
+"Depend on abstractions, not concrete implementations, to achieve loose coupling."

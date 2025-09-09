@@ -1,0 +1,64 @@
+✅ Java Backend Developer Topics (3 Years Experience)
+1. Spring & Spring Boot
+Spring Core:
+Dependency Injection (DI), Inversion of Control (IoC)
+Bean scopes, lifecycle
+@Component, @Service, @Repository, @Configuration
+Spring Boot:
+Auto-configuration
+Application properties & profiles
+Actuator
+REST API Development:
+@RestController, @RequestMapping, @PathVariable, @RequestParam
+Validation (@Valid, @NotNull, @Size)
+Exception Handling (@ControllerAdvice, @ExceptionHandler)
+Swagger/OpenAPI for documentation
+Spring Data JPA / Hibernate:
+Entity mapping (@Entity, @Table, @OneToMany, @ManyToOne)
+JPQL & Criteria API
+Named queries, projections
+Lazy vs Eager loading
+Caching with Hibernate
+Spring Security (basics):
+Authentication & Authorization
+JWT-based authentication
+
+
+8. Databases
+SQL (must be strong):
+Joins, Group By, Having, Subqueries
+Indexes, Views, Stored Procedures
+Transactions (ACID properties)
+RDBMS: PostgreSQL / MySQL
+NoSQL basics: MongoDB / Redis
+ORM mapping with JPA/Hibernate
+
+9. Messaging & Caching
+Kafka / RabbitMQ basics (publish-subscribe model)
+Redis / EhCache for caching
+When to use caching, cache invalidation strategies
+
+
+10. Testing
+
+Unit Testing: JUnit 5, Mockito
+Integration Testing with Spring Boot (@SpringBootTest)
+Testcontainers (for DB testing, optional but good to know)
+
+
+11. DevOps & Deployment Basics
+Build Tools: Maven / Gradle
+CI/CD basics (Jenkins, GitHub Actions)
+Docker (containerize Spring Boot app)
+Kubernetes basics (pods, services, deployments) – nice-to-have
+Cloud basics (AWS/GCP/Azure)
+EC2, S3, RDS, Lambda (at least read about them)
+
+
+13. Problem Solving & DSA (for interviews)
+Arrays, Strings (anagrams, duplicates, subarray problems)
+LinkedList, Stack, Queue (implement using collections)
+Binary Trees, BST, Heap basics
+HashMap-based coding questions (e.g., find duplicates, frequency count)
+Sorting & Searching
+Dynamic Programming (basic to medium level)

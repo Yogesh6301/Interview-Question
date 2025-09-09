@@ -1,0 +1,173 @@
+1. What is the Java Collections Framework?
+
+The Java Collections Framework (JCF) is a set of interfaces, classes, and algorithms to store, retrieve, and manipulate data efficiently. 
+It includes List, Set, Map, Queue, and utility classes like Collections and Arrays.
+
+2. Difference between Collection and Collections
+
+Feature	           Collection	                               Collections
+Type	           Interface	                               Utility class
+Purpose	           Represents a group of objects	           Provides static methods to operate on collections
+
+Example	List, Set, Queue	Collections.sort(list)
+
+
+3. Difference between Array and ArrayList
+
+Feature	                     Array	          ArrayList
+Size	                     Fixed	          dynamic
+Type	                     Can store        primitives	Stores objects only
+Methods	                     Limited          Rich API (add, remove, contains)
+Performance	                 Faster           Slower due to dynamic resizing
+
+
+4. Difference between List, Set, and Map
+
+Interface        Key Feature	Example Classes
+List	         Ordered, allows duplicates	ArrayList, LinkedList, Vector
+Set	             Unordered, no duplicates	HashSet, LinkedHashSet, TreeSet
+Map	             Key-value pairs, keys unique	HashMap, LinkedHashMap, TreeMap
+
+
+5. Difference between ArrayList and LinkedList
+
+
+Feature         	ArrayList	        LinkedList
+Data structure	   Resizable array	     Doubly linked list
+Access time	       O(1) for get()	     O(n) for get()
+Insert/Delete	   Slow in middle	     Fast in middle
+Memory	           Less overhead	     More memory due to node pointers
+
+
+
+6. Difference between HashMap, LinkedHashMap, and TreeMap
+
+Feature	              HashMap	                   LinkedHashMap	      TreeMap
+Order	              No order	                Insertion order	          Sorted order (natural or comparator)
+Null Key	          1 null key allowed	    1 null key allowed	      Not allowed
+Performance           O(1)	                      O(1)	                    O(log n)
+Implementation	      Hash table	            Hash table + linked list	Red-black tree
+
+
+7. Difference between HashSet, LinkedHashSet, TreeSet
+
+Feature	             HashSet	       LinkedHashSet	TreeSet
+Order	             No order	       Insertion order	Sorted order
+Null	             Allows 1 null 	   Allows 1 null	Not allowed
+Performance	         O(1)	           O(1)	             O(log n)
+								       
+
+
+8. Difference between HashMap and Hashtable
+Feature	           HashMap	                         Hashtable
+Thread-safety	   Not synchronized              	Synchronized
+Null Key/Value	   1 null key, multiple null values	No null keys/values
+Performance	       Faster	                        Slower
+
+
+9. Difference between Iterator, ListIterator, Enumeration
+
+Feature	Iterator	ListIterator	                 Enumeration
+Traversal	        Forward	Forward & backward	     Forward
+Applicable to	    Collection	List	             Legacy classes (Vector, Hashtable)
+
+
+
+10. Difference between Comparable and Comparator
+
+Feature	               Comparable	                Comparator
+Sorting	               Natural order	            Custom order
+Interface method	   compareTo()	                compare()
+Location	           In class itself	            Separate class
+Example                String implementsComparable	Collections.sort(list, new MyComparator())
+
+
+
+11. What is the difference between fail-fast and fail-safe iterators?
+Fere	                     Fail-fast	                                                             Fail-safe
+Modification	             Throws ConcurrentModificationException if collection modified	         Does not throw exception (works on clone)
+Example               	     ArrayList.iterator()	                                                 ConcurrentHashMap.iterator()
+Thread safety	             Not thread-safe	                                                     Thread-safe 
+
+
+12. Difference between Stack, Queue, and Deque
+
+Feature	                     Stack	            Queue	                            Deque
+Order	                     LIFO	            FIFO	                            Both (double-ended)
+Implementation	           Stack class,         Deque	LinkedList, PriorityQueue	ArrayDeque, LinkedList
+Methods	                   push(), pop()       add(), remove(), peek()	           addFirst(), addLast(), removeFirst(), removeLast()
+
+
+13. Difference between PriorityQueue and LinkedList (Queue)
+
+Feature	        PriorityQueue	                            LinkedList (Queue)
+Order	        Sorted by priority (natural or comparator)	FIFO insertion order
+Null	        Not allowed	Allowed
+Performance	    O(log n) insertion/removal	O(1) insertion, O(n) removal
+
+
+14. Difference between HashSet and HashMap
+
+HashSet stores unique elements.
+HashMap stores key-value pairs (keys unique, values can duplicate).
+HashSet internally uses HashMap to store elements.
+
+15. Difference between ArrayList and Vector
+
+Feature            ArrayList	         Vector
+Thread-safety	   Not synchronized	     Synchronized
+Performance	       Faster	             Slower
+Growth	           50% increase	         100% increase
+
+
+16. How to remove duplicates from a list?
+
+Using HashSet:
+List<Integer> list = Arrays.asList(1,2,2,3,4);
+List<Integer> unique = new ArrayList<>(new HashSet<>(list));
+Using Streams:
+List<Integer> unique = list.stream().distinct().collect(Collectors.toList());
+
+17. Difference between shallow copy and deep copy in collections
+Feature	        Shallow copy	      Deep copy
+Copies	        References 	          Objects
+Changes         Affects original	   Does not affect original
+
+
+
+18. Difference between HashMap’s get() and getOrDefault()
+
+map.get(key); // returns value or null
+map.getOrDefault(key, defaultValue); // returns value or defaultValue
+
+19. Difference between TreeMap and ConcurrentSkipListMap
+
+Feature	                   TreeMap	                ConcurrentSkipListMap
+Thread-safety	           Not synchronized	        Thread-safe
+Sorting	                   Natural or comparator    Natural or comparator
+Performance	               O(log n)	                (log n)
+
+
+20. Best Practices for Java Collections?
+Prefer ArrayList for random access; LinkedList for frequent insertions/deletions.
+Use HashMap for fast key-value lookup; TreeMap for sorted keys.
+Avoid null keys/values in HashMap if possible.
+Use ConcurrentHashMap for thread-safe operations.
+Prefer Streams for processing collections efficiently.
+Use Collections.unmodifiableList/set/map() for read-only collections.
+
+
+
+21. Internal Working Hashmap?
+
+HashMap stores key-value pairs in an array of buckets. 
+The index is calculated using hashCode() of the key. In case of collisions, it uses linked lists, and from Java 8 onwards, 
+it converts them into Red-Black Trees if the chain is too long. 
+Resizing happens when load factor exceeds the threshold. Average time complexity for get/put is O(1), and worst case O(log n)."
+
+
+
+22. What is ConcurrentHashMap and how does it work internally?
+ConcurrentHashMap is a thread-safe implementation of Map introduced in Java 5.
+Unlike HashMap, it allows concurrent read and write without using Collections.synchronizedMap().
+Unlike Hashtable, it does not block the entire map for every operation → better performance in multi-threaded environments.

@@ -1,0 +1,159 @@
+1. What are the major features introduced in Java 8?
+
+Lambda Expressions: Enable functional programming style.
+Streams API: Process collections declaratively.
+Functional Interfaces: Interfaces with a single abstract method.
+Default and Static Methods in Interfaces: Provide implementation in interfaces.
+Optional Class: Handle null values safely.
+Date and Time API: java.time package for immutable date-time operation
+Collectors API: Advanced operations on streams.
+
+2. What is a Lambda Expression?
+A lambda expression is a concise way to implement a functional interface.
+
+Syntax:
+
+(parameters) -> expression
+(parameters) -> { statements; }
+
+
+Example:
+
+List<String> names = Arrays.asList("Alice", "Bob");
+names.forEach(name -> System.out.println(name));
+
+3. What is a Functional Interface?
+A functional interface has exactly one abstract method. It can have multiple default or static methods.
+
+Example:
+
+@FunctionalInterface
+interface Calculator {
+    int add(int a, int b);
+}
+Common built-in functional interfaces: Predicate, Function, Consumer, Supplier, UnaryOperator, BinaryOperator.
+
+4. Explain Default and Static Methods in Interfaces
+
+Answer:
+
+Default method: Has a body in interface; can be overridden.
+
+Static method: Belongs to the interface; called without object.
+
+interface Vehicle {
+    default void start() { System.out.println("Vehicle started"); }
+    static void fuel() { System.out.println("Fueling"); }
+}
+
+5. What are Method References?
+
+Answer:
+Method references are shorter lambda expressions.
+
+Types:
+
+Static Method → ClassName::staticMethod
+Instance Method → instance::method
+Constructor → ClassName::new
+
+Example:
+List<String> names = Arrays.asList("Alice", "Bob");
+names.forEach(System.out::println);
+
+6. What are Streams in Java 8?
+Streams enable functional-style operations on collections.
+
+Example:
+List<Integer> numbers = Arrays.asList(1,2,3,4,5);
+List<Integer> evenNumbers = numbers.stream()
+                                   .filter(n -> n % 2 == 0)
+                                   .collect(Collectors.toList());
+
+
+Intermediate operations: map, filter, sorted (lazy).
+
+Terminal operations: forEach, collect, reduce (triggers execution).
+
+7. Difference between map() and flatMap()
+Feature	map()	flatMap()
+Input	Stream of elements	Stream of streams
+Output	Stream of transformed elements	Flattened stream
+Example	stream.map(String::toUpperCase)	stream.flatMap(s -> Arrays.stream(s.split("")))
+8. What is Optional?
+
+Answer:
+Optional is a container for a value that may be null, avoiding NullPointerException.
+
+Example:
+Optional<String> name = Optional.ofNullable(null);
+System.out.println(name.orElse("Default")); // Default
+
+
+Useful methods: map(), flatMap(), orElse(), ifPresent(), isPresent().
+
+9. Explain Predicate, Function, Consumer, Supplier
+
+Interface	Purpose	Example
+Predicate<T>	Takes T, returns boolean	Predicate<String> p = s -> s.length()>3;
+Function<T,R>	Takes T, returns R	Function<String,Integer> f = s -> s.length();
+Consumer<T>	Takes T, returns void	Consumer<String> c = s -> System.out.println(s);
+Supplier<T>	No input, returns T	Supplier<String> s = () -> "Hello";
+
+
+10. Explain Collectors in Streams
+Used to collect results into a collection or summary statistics.
+
+Example:
+List<String> names = Arrays.asList("Alice", "Bob");
+List<String> upper = names.stream()
+                          .map(String::toUpperCase)
+                          .collect(Collectors.toList());
+Common methods: toList(), toSet(), joining(), groupingBy(), partitioningBy(), counting().
+
+
+
+11. Difference between groupingBy and partitioningBy
+
+groupingBy: Groups elements by a classifier.
+Map<Integer,List<String>> grouped = names.stream().collect(Collectors.groupingBy(String::length));
+partitioningBy: Splits into true/false groups.
+Map<Boolean,List<String>> partitioned = names.stream().collect(Collectors.partitioningBy(s -> s.length()>3));
+
+12. What is the Date and Time API?
+
+Answer:
+Java 8 provides java.time package for immutable, thread-safe date-time operations.
+Example:
+LocalDate date = LocalDate.now();
+LocalTime time = LocalTime.now();
+LocalDateTime dateTime = LocalDateTime.now();
+Classes: LocalDate, LocalTime, LocalDateTime, ZonedDateTime, Duration, Period.
+
+13. Difference between map() and peek() in Streams
+Feature	map()	peek()
+Purpose	Transform elements	Inspect elements for debugging
+Returns	Stream of transformed elements	Same stream elements
+
+
+
+14. Difference between Collection and Stream
+Feature	Collection	Stream
+Storage	Yes	No
+Iteration	External	Internal
+Modification	Can modify	Cannot modify
+Traversal	One at a time	Lazy, can chain operations
+
+
+15. What are Parallel Streams?
+Parallel streams allow multi-threaded processing to improve performance.
+int sum = numbers.parallelStream().mapToInt(Integer::intValue).sum();
+Avoid shared mutable state when using parallel streams.
+
+
+16. Optional.map() vs Optional.flatMap()
+map(): Returns Optional of result.
+flatMap(): Flattens nested Optional.
+Optional<String> name = Optional.of("Alice");
+Optional<Integer> length = name.map(String::length);
+

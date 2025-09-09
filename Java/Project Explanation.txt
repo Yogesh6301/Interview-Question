@@ -1,0 +1,183 @@
+
+
+I have been working on the Telefónica project at Capgemini, where we developed microservices-based APIs to manage customer accounts, subscriptions, 
+and billing for millions of users.
+
+The architecture was built using Spring Boot microservices with Eureka for service discovery, Spring Cloud Gateway as the API gateway, and 
+Feign Client for inter-service communication.
+We used MYSQL as the database, and for deployments, we containerized the services using Docker and Kubernetes with CI/CD pipelines in Jenkins. 
+For monitoring and logging, we integrated with the ELK Stack and used SonarQube for code quality.
+My main contributions included developing REST APIs for the Customer and Subscription services, implementing JWT-based authentication and authorization,
+writing unit and integration tests with JUnit and Mockito, and optimizing SQL queries with pagination for large data sets.
+I also configured Spring Cloud Config Server for centralized configuration and worked on Resilience4j to make the services fault-tolerant.
+One of the key challenges we faced was handling communication failures between services under heavy load. 
+To solve this, I implemented circuit breakers and retries with Resilience4j. Another challenge was downtime during deployments, 
+which we solved by implementing rolling deployments using Kubernetes.
+
+As a result, the system became highly scalable and resilient, capable of handling thousands of requests per second, 
+while deployment time was reduced by about 40% with CI/CD automation. Overall, 
+this project helped improve customer experience significantly by ensuring real-time updates on subscriptions and billing."*
+
+
+_"The system works as a set of independent microservices — Customer Service handles customer data, 
+Subscription Service manages plans, and Billing Service generates invoices. These services communicate via REST APIs using Feign Client, 
+with Eureka for service discovery and API Gateway for routing.
+
+All requests are secured with JWT, configs are managed centrally with Spring Cloud Config Server, and fault tolerance is achieved using Resilience4j.
+The services are deployed on Kubernetes clusters with Docker containers, 
+which allows scaling to handle millions of users. Monitoring is done with ELK Stack, and we ensured zero-downtime deployments using rolling updates."_
+
+Key Services in the Telefónica Project
+
+1. Customer Service
+
+Purpose: Manages all customer-related information (profile, contact details etc.).
+Responsibilities:
+Create, update, delete customer profiles.
+Fetch customer details by ID, email, or phone.
+Maintain mapping between customers and their subscriptions.
+Example:
+When a new customer signs up, this service stores their data in PostgreSQL.
+If the customer updates their email or address, this service handles it.
+
+
+2. Subscription Service
+
+Purpose: Manages subscriptions to telecom plans (mobile, internet, broadband, etc.).
+Responsibilities:
+Subscribe a customer to a new plan.
+Upgrade/downgrade an existing plan.
+Cancel or suspend subscriptions.
+Retrieve all subscriptions for a customer.
+Example:
+If a customer activates a new 5G mobile plan, this service updates the subscription in the system.
+If they change to a higher data pack, this service updates the plan details.
+
+
+3. Billing Service
+
+Purpose: Handles billing and invoice generation.
+Responsibilities:
+Generate monthly bills based on active subscriptions and usage.
+Calculate charges (plan cost, taxes, extra usage).
+Provide APIs for fetching current or past bills.
+Example:
+At the end of each billing cycle, the service automatically generates invoices.
+Customers can check their outstanding balance in real-time.
+
+4. Authentication & Authorization Service
+Purpose: Secures the APIs.
+Responsibilities:
+Authenticate users with JWT tokens.
+Authorize users (e.g., admin vs customer).
+Example:
+If an admin wants to access all customer details, they need admin role.
+If a customer logs in, they can only see their own details.
+
+
+5. API Gateway (Spring Cloud Gateway)
+Purpose: Entry point for all external requests.
+Responsibilities:
+Routes requests to the correct microservice (Customer, Subscription, Billing).
+Handles rate limiting, logging, and cross-cutting concerns.
+Example:
+If a customer queries billing info → Gateway routes the request to Billing Service.
+If they update profile → Gateway routes to Customer Service.
+
+
+6. Service Discovery (Eureka Server)
+Purpose: Keeps track of available microservices.
+Responsibilities:
+Registers all services dynamically.
+Allows services to find each other without hardcoding URLs.
+Example:
+Subscription Service needs customer data → it asks Eureka where Customer Service is running.
+
+
+7. Configuration Service (Spring Cloud Config Server)
+Purpose: Centralized configuration management.
+Responsibilities:
+Store configs (DB URLs, API keys, credentials).
+Provide configs dynamically to all microservices.
+Example:
+If DB password changes, update it in Config Server → all services automatically get the new config.
+
+
+8. Resilience & Fault Tolerance (Resilience4j)
+Purpose: Makes the system resilient to failures.
+Responsibilities:
+Circuit breaker (stop calls to failing service).
+Retry failed requests.
+Provide fallback response.
+Eample:
+If Billing Service is down, Subscription Service won’t keep retrying endlessly → circuit breaker opens.
+A fallback response (like “billing info not available, please try later”) is returned.
+
+
+How to Explain in an Interview
+
+When asked “Tell me about the services in your project”, answer like this:
+"Our project was divided into multiple microservices, each handling a specific business domain.
+
+Customer Service managed customer profiles.
+Subscription Service handled plan activations, upgrades, and cancellations.
+Billing Service generated invoices and managed payments.
+
+We had a JWT-based Authentication Service for security.
+All requests passed through an API Gateway, and services registered dynamically with Eureka for discovery.
+Configurations were centralized using Config Server, and to ensure fault tolerance, we implemented Resilience4j with circuit breakers, retries, and fallbacks."
+
+
+
+✅ Summary of Entities per Service
+
+Customer Service: Customer
+Subscription Service: Subscription (linked to Customer)
+Billing Service: Billing (linked to Subscription)
+Auth Service: User, Role
+This way:
+One Customer → many Subscriptions.
+One Subscription → many Billing records.
+Users (customers/admins) are authenticated with JWT based on User & Role tables.
+
+Customer Services :
+
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long customerId;
+private String firstName;
+private String lastName;
+private String email;
+private String phone;
+private String address;
+private String kycStatus;   // e.g., Verified / Pending
+private LocalDate registeredDate;
+// Relationship: One customer can have many subscriptions
+@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+private List<Subscription> subscriptions;
+
+
+Subscription Service :
+
+
+public class Subscription {
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long subscriptionId;
+
+private String planName;        // e.g., 5G Mobile, Broadband, etc.
+private String planType;        // Mobile, Internet, Broadband
+private String status;          // Active, Suspended, Cancelled
+private LocalDate startDate;
+private LocalDate endDate;
+
+// Relationship: Subscription belongs to a customer
+@ManyToOne
+@JoinColumn(name = "customer_id")
+private Customer customer;
+
+// Relationship: A subscription generates multiple bills
+@OneToMany(mappedBy = "subscription", cascade = CascadeType.ALL)
+private List<Billing> billings;
+}
+

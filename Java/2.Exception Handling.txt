@@ -1,0 +1,126 @@
+1. What is Exception Handling in Java?
+Answer:
+Exception Handling is a robust way to handle runtime errors in a program. It prevents program termination and allows for graceful recovery. Java uses try, catch, finally, throw, and throws keywords to handle exceptions.
+
+2. Explain the difference between throw and throws.
+Answer:
+Keyword	Purpose	Example
+throw	Used to explicitly throw an exception in the code	throw new IOException("File not found");
+throws	Declares that a method might throw specified checked exceptions	public void readFile() throws IOException
+3. What is the difference between checked and unchecked exceptions?
+
+Answer:
+Type	Must handle	When occurs	Examples	Notes
+Checked	Yes	Compile time	IOException, SQLException, ClassNotFoundException	External issues that can be anticipated
+Unchecked (Runtime)	No	Runtime	NullPointerException, ArrayIndexOutOfBoundsException, ArithmeticException	Programming errors; should be fixed
+Error	No	Runtime	OutOfMemoryError, StackOverflowError	Severe issues; usually unrecoverable
+
+
+4. What are try, catch, and finally blocks?
+Answer:
+try block: Contains code that might throw an exception.
+catch block: Catches specific types of exceptions thrown in the try. Multiple catch blocks can be used (most specific first).
+finally block: Executes always, regardless of exceptions. Used for cleanup (e.g., closing streams, database connections).
+
+Example:
+try {
+    int result = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println("Cannot divide by zero!");
+} finally {
+    System.out.println("Finally block executed.");
+}
+
+5. Can you create custom exceptions? How?
+Answer:
+Yes. You can create a custom exception by extending:
+Exception → for checked exceptions
+RuntimeException → for unchecked exceptions
+
+Example:
+
+class MyCheckedException extends Exception {
+    public MyCheckedException(String message) {
+        super(message);
+    }
+}
+
+class MyUncheckedException extends RuntimeException {
+    public MyUncheckedException(String message) {
+        super(message);
+    }
+}
+
+6. Explain Exception Handling in Spring Boot.
+
+Answer:
+Spring Boot provides several ways to handle exceptions gracefully in a web application:
+@ResponseStatus
+Annotate a custom exception to map it automatically to an HTTP status.
+@ResponseStatus(HttpStatus.NOT_FOUND)
+class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+}
+
+
+@ExceptionHandler
+Handle exceptions in a specific controller.
+@RestController
+public class UserController {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+}
+
+
+@ControllerAdvice / @RestControllerAdvice
+Centralized, global exception handling.
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleAllExceptions(Exception ex) {
+        return new ResponseEntity<>("Error: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+
+
+
+7. How do you decide between checked and unchecked exceptions?
+Answer:
+Use checked exceptions for recoverable conditions (e.g., file not found, database errors).
+Use unchecked exceptions for programming errors (e.g., null pointers, invalid arguments).
+
+8. Difference between Exception and Error?
+
+Answer:
+Aspect	Exception	Error
+Recoverable	Yes	No
+Checked/Unchecked	Both	Unchecked only
+Example	IOException, NullPointerException	StackOverflowError, OutOfMemoryError
+
+
+9. Can finally block override return?
+Answer:
+If both try/catch and finally have a return, the finally return value will override the one in try/catch.
+Example:
+
+public int test() {
+    try {
+        return 1;
+    } finally {
+        return 2; // This will be returned
+    }
+}
+
+
+10. What are best practices for Exception Handling in Spring Boot?
+Answer:
+Use custom exceptions for business logic errors.
+Centralize handling using @ControllerAdvice.
+Avoid generic Exception catch blocks; catch specific exceptions.
+Use meaningful error messages.
+Log errors properly for debugging.
+Return appropriate HTTP status codes.

@@ -1,0 +1,180 @@
+🔹 General Project Questions
+
+1. Can you give me an overview of the Telefónica project you worked on?
+I worked on Telefónica’s customer management system at Capgemini. The project involved building microservices-based APIs to manage customer accounts, subscriptions, and billing for millions of users. My role was to design and implement services like Customer, Subscription, and Billing using Spring Boot, PostgreSQL, and secure them with JWT.
+
+2. What was the business objective of this project?
+The objective was to modernize Telefónica’s legacy system into a scalable microservices-based platform to support millions of users, reduce downtime, improve billing accuracy, and make it easier to roll out new plans or offers quickly.
+
+3. What was your role in this project, and which services did you work on most?
+I worked as a Java Spring Boot Microservices Developer. My primary contributions were developing Customer Service, Subscription Service, and implementing JWT-based authentication. I also contributed to integration using Feign Clients, optimized SQL queries, wrote unit tests, and worked on CI/CD deployment.
+
+4. What were some of the biggest challenges you faced, and how did you solve them?
+One challenge was handling service downtime. For example, if the Billing Service was down, customers couldn’t see invoices. I implemented Resilience4j circuit breakers and retries, so the system returned cached or fallback responses instead of failing completely.
+
+5. How did your work contribute to system scalability and performance?
+I optimized SQL queries using indexes and pagination, implemented asynchronous inter-service calls with Feign + Resilience4j, and containerized services with Docker + Kubernetes, enabling horizontal scaling. This reduced API response times and supported high traffic loads.
+
+🔹 Microservices & Architecture
+
+6. Why did you choose microservices instead of a monolithic architecture?
+Because Telefónica needed scalability and flexibility. In a monolith, a failure in billing could bring down the whole system. With microservices, each service is independent, easier to scale, deploy, and maintain.
+
+7. Can you explain how Eureka Server works and why it’s important?
+Eureka is a service registry. Each service registers itself with Eureka, and other services discover them dynamically instead of hardcoding URLs. This helps in load balancing and fault tolerance.
+
+8. What role did Spring Cloud Gateway play in your architecture?
+Gateway acted as a single entry point for clients. It handled routing, authentication, authorization, and rate-limiting before forwarding requests to backend services.
+
+9. How did you use Feign Client for inter-service communication?
+Feign Client let us call other services like Java methods without writing boilerplate RestTemplate code. For example, Customer Service used Feign to fetch subscription details from Subscription Service.
+
+10. How did you manage service-to-service communication failures?
+We used Resilience4j Circuit Breaker + Retry + Fallback. If a service was down, the system returned cached data or a default response instead of failing.
+
+🔹 Individual Services
+
+11. What functionalities did the Customer Service provide?
+
+Create/Update/Delete customer
+
+Fetch customer details
+
+Link customers with subscriptions
+
+12. How does the Subscription Service handle upgrades/downgrades of plans?
+When a user upgrades/downgrades, Subscription Service updates the plan and notifies Billing Service. Billing then recalculates charges for the new cycle.
+
+13. How did the Billing Service generate invoices and handle real-time updates?
+Billing Service listened to subscription changes via Feign or async events, calculated charges, and generated invoices in PDF format. It also handled partial billing for mid-cycle plan changes.
+
+14. Can you explain how the Authentication & Authorization Service worked using JWT?
+At login, the user entered credentials → Auth Service validated via DB → issued JWT token. Each request carried the token in headers. Gateway validated the token and checked roles before routing.
+
+15. Why did you need a Configuration Service instead of using local configs?
+Because managing configs in each microservice is difficult. With Spring Cloud Config Server, all services fetched configs centrally from Git. It made it easier to update without redeploying.
+
+🔹 Security
+
+16. How did you implement JWT-based authentication and authorization?
+We used Spring Security + JWT. JWT had claims like user role. The Gateway validated JWT before routing. Services verified roles (admin/customer) using role-based access control.
+
+17. How did you ensure role-based access (admin vs customer)?
+JWT contained role claims. For example:
+
+ROLE_ADMIN → access to all customer data.
+
+ROLE_USER → access only to their own subscription/billing.
+
+18. What measures did you take to secure communication between services?
+
+All communication via HTTPS
+
+JWT tokens for internal service-to-service calls
+
+Configured CORS policies in Gateway
+
+🔹 Database & Performance
+
+19. Why did you choose PostgreSQL?
+Because of its reliability, ACID compliance, JSON support, and ability to handle large-scale data with indexing.
+
+20. How did you optimize SQL queries for large datasets?
+
+Used indexes on frequently queried fields
+
+Implemented pagination instead of fetching all data
+
+Used batch inserts for bulk operations
+
+21. How did you implement pagination in your APIs?
+Using Spring Data JPA’s Pageable and Page<T>. Clients passed page and size, and DB returned only required rows.
+
+🔹 Fault Tolerance & Resilience
+
+22. What is Resilience4j, and how did you use it?
+It’s a fault tolerance library. We used it for circuit breaker, retry, bulkhead, and rate limiter to prevent cascading failures.
+
+23. Can you explain circuit breaker and retry?
+
+Circuit breaker: If a service fails repeatedly, stop calling it for a while.
+
+Retry: Automatically retries a failed call before giving up.
+
+24. Give me a real example where circuit breakers helped.
+If Billing Service was down, Subscription Service used a circuit breaker → returned fallback response (“billing info not available”) → system kept running instead of failing completely.
+
+25. What happens if the Billing Service goes down?
+Circuit breaker trips → Subscription Service serves cached/fallback → once Billing is back, circuit closes and normal flow resumes.
+
+🔹 Deployment & DevOps
+
+26. How did you containerize your services using Docker?
+We wrote Dockerfile for each service, built images, pushed to registry, and deployed via Kubernetes.
+
+27. What is the role of Kubernetes in your deployment?
+Kubernetes handled scaling, self-healing, load balancing, and rolling updates for our microservices.
+
+28. Can you explain rolling deployments?
+Instead of shutting down old pods, Kubernetes gradually replaced them with new pods → zero downtime deployments.
+
+29. How did your CI/CD pipeline in Jenkins work?
+
+Code pushed → Jenkins triggered build → ran unit tests → built Docker image → pushed to registry → deployed to Kubernetes.
+
+30. How did you ensure zero-downtime deployment?
+Using Kubernetes rolling updates + health checks. New pods started before old pods were stopped.
+
+🔹 Monitoring & Quality
+
+31. How did you use the ELK Stack for monitoring?
+
+Elasticsearch: stored logs
+
+Logstash: processed logs
+
+Kibana: visualized logs for debugging, error trends, API failures
+
+32. What kind of logs did you collect?
+API requests/responses, errors, exceptions, service-to-service calls, and performance metrics.
+
+33. How did you use SonarQube for code quality?
+Integrated with Jenkins pipeline → checked for code smells, bugs, test coverage → enforced quality gate before merge.
+
+34. How did you ensure good test coverage?
+Used JUnit + Mockito to test controllers, services, and repositories. Targeted >80% coverage.
+
+🔹 Scenario / Problem-Solving
+
+35. What happens if a customer tries to access subscription data while Subscription Service is down?
+Fallback response from circuit breaker → either cached data or error message (“Service temporarily unavailable”).
+
+36. How would you handle duplicate customer records?
+By applying unique constraints in DB and validating data before insert. Also used deduplication scripts during migration.
+
+37. How would you scale the system if traffic doubles?
+
+Horizontal scaling with Kubernetes (more pods)
+
+DB indexing + read replicas
+
+API caching for repeated requests
+
+38. How would you migrate PostgreSQL to another DB with minimal downtime?
+Use blue-green deployment + data replication tools (like Debezium) → switch traffic gradually.
+
+39. If JWT tokens are compromised, how would you secure the system?
+
+Immediately revoke compromised tokens
+
+Rotate secret keys
+
+Reduce token expiry time
+
+Use refresh tokens securely
+
+40. If two services call each other and cause circular dependency, how would you resolve it?
+
+Break dependency by using an event-driven approach (Kafka)
+
+Or create a shared service instead of direct circular calls

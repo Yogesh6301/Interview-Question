@@ -1,0 +1,200 @@
+
+✅ Java OOPs Interview Q&A
+
+🔹 4 Pillars of OOPs
+
+🔹  Encapsulation → Wrapping data & methods into a class.
+
+class Account {
+    private double balance;
+    public void deposit(double amt) { balance += amt; }
+    public double getBalance() { return balance; }
+}
+
+
+🔹 inheritance → Reusing parent class features.
+
+class Animal { void sound(){ } }
+class Dog extends Animal { void sound(){ System.out.println("Bark"); } }
+
+
+🔹  Polymorphism → One method, many forms (overloading, overriding).
+
+class Calculator {
+    int add(int a, int b){ return a+b; } // Overload 1
+    double add(double a, double b){ return a+b; } // Overload 2
+}
+
+
+🔹  Abstraction → Hiding implementation.
+
+abstract class Shape { abstract void draw(); }
+class Circle extends Shape { void draw(){ System.out.println("Circle"); } }
+
+
+🔹 Class vs Object
+
+Class: Blueprint/template (e.g., Car class).
+Object: Instance of class (e.g., new Car()).
+
+🔹 Encapsulation vs Abstraction
+
+Encapsulation → Implementation technique (data hiding with private + getters/setters).
+Abstraction → Design principle (show what, hide how via abstract classes/interfaces).
+
+
+🔹 Method Overloading vs Overriding
+
+Overloading → Same method name, diff parameters, same/different return type, compile-time.
+Overriding → Same method signature in child class, return type can be covariant, runtime.
+
+
+🔹 Compile-time vs Runtime Polymorphism
+
+Compile-time (static) → Method overloading.
+Runtime (dynamic) → Method overriding (dynamic method dispatch).
+
+🔹 Can we overload main()?
+
+✅ Yes, multiple main() methods allowed with diff params,
+but JVM only calls public static void main(String[] args).
+
+
+🔹 Can we override static method?
+
+❌ No.
+Static methods belong to class, not object.
+If re-declared, it’s method hiding, not overriding.
+
+
+🔹 this vs super
+
+this → Refers to current object.
+super → Refers to parent class (constructor, variables, methods).
+
+
+🔹 Constructor Overloading & Overriding
+
+
+Overloading → ✅ Yes (diff parameters).
+Overriding → ❌ No (constructors are not inherited).
+
+
+🔹 Object reference vs Object
+
+Object reference → Variable that points to object in heap.
+Object itself → Actual memory in heap.
+
+
+✅ Encapsulation
+Definition → Binding data + methods inside class, restricting direct access.
+Helps achieve data hiding → By making fields private.
+Private + Getters/Setters → Allow controlled access.
+Without setters/getters? → Yes (can have immutable objects with only getters).
+
+
+✅ Inheritance
+Definition → Mechanism to acquire properties from parent (extends).
+
+Types:
+
+Single ✅
+Multilevel ✅
+Hierarchical ✅
+Multiple ❌ (but supported via interfaces).
+extends vs implements → extends → class inheritance, implements → interface implementation.
+
+IS-A vs HAS-A →
+
+IS-A → Inheritance (Dog IS-A Animal).
+HAS-A → Composition (Car HAS-A Engine).
+Composition vs Inheritance → Composition is preferred (loose coupling).
+
+✅ Polymorphism
+
+Definition → One entity behaving differently in different contexts.
+Overloading rules: Change parameter list, can’t only change return type.
+Overriding rules: Same signature, same/diff covariant return type, not private/final/static.
+
+Covariant return type → Child class return allowed in overriding.
+Dynamic method dispatch → At runtime, JVM calls overridden method via object type.
+Override private/final? ❌ No.
+Overload only by return type? ❌ No, must differ in parameters.
+
+✅ Abstraction
+
+Definition → Hiding implementation, showing only functionality.
+
+Abstract class vs Interface →
+
+Abstract: partial abstraction, fields allowed, constructors allowed.
+Interface: 100% abstraction (till Java 7), supports multiple inheritance.
+Abstract class constructor? ✅ Yes, used for initialization in subclasses.
+Interface default/static methods? ✅ Yes (Java 8+).
+Marker interface → Empty interface (Serializable) → gives metadata to JVM.
+Functional interface → Exactly 1 abstract method (Runnable, Callable, Predicate).
+Can we create object of abstract class? ❌ No, only via subclass.
+
+
+🔹 Interview Tip
+If asked “When to use?” 👉
+Abstract class → When classes are closely related, share state + some common code.
+Interface → When unrelated classes should follow the same contract (e.g., Comparable, Runnable).
+
+
+✅ Object Class & Core Methods
+
+Object class role → Root parent of all classes.
+== vs equals() →
+
+== → reference comparison.
+equals() → content comparison (override required).
+
+equals() & hashCode() → Must override both for HashMap/HashSet.
+toString() → Returns string representation of object.
+
+finalize() vs finally →
+
+finalize(): Called by GC before destroying object.
+finally: Always executes after try-catch.
+
+clone() → Creates copy.
+Shallow copy → Copies object, not referenced objects.
+Deep copy → Copies object + referenced objects.
+
+
+
+✅ Keywords & Advanced OOPs
+
+static variable → Shared across all objects.
+static method → Belongs to class, can’t access instance vars directly.
+static block → Runs once when class loads.
+final + abstract class? ❌ No (contradiction: abstract → extendable, final → not extendable).
+Blank final variable → Final but not initialized at declaration, must be in constructor.
+
+Interface extending multiple interfaces? ✅ Yes.
+
+Diamond problem → Multiple inheritance ambiguity. Solved in Java via interfaces with explicit override.
+
+Inner classes →
+
+Member inner class
+Static nested class
+Local inner class
+Anonymous inner class
+
+Anonymous inner class → Class without name, declared inline.
+Runnable r = new Runnable();
+
+{ 
+public void run(){ System.out.println("Run"); 
+} 
+};
+
+
+
+🔹 equals() and hashCode() in Java
+
+1. Purpose
+equals() → Compares object content for equality.
+hashCode() → Returns an int hash value for the object, used in hash-based collections (HashMap, HashSet).
