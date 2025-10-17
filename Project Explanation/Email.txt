@@ -1,0 +1,41 @@
+1. Top Job Portals for Your Profile
+LinkedIn 
+Naukri.com 
+
+2. Company Career Pages
+Capgemini, Accenture, Infosys, TCS, Wipro, Cognizant – For service-based companies.
+Flipkart, Paytm, PhonePe, Razorpay, Zomato, Swiggy – Product-based companies in India hiring backend engineers.
+FAANG & MNCs – Google, Microsoft, Amazon, Oracle, IBM, SAP – directly apply through their career sites.
+
+Password for any company
+Yogi@1234
+
+
+✅ LinkedIn Message Version =
+
+Hi [Name],
+I hope you’re doing well. I came across opportunities for the Software Engineer role at Microsoft (Job IDs: [Add IDs]) and found them closely aligned with my skills.
+I have over 2 years of experience as a Software Engineer at Capgemini, working on Java, Spring Boot, Microservices, PostgreSQL, 
+and Cloud (AWS, Azure, GCP). If possible, could you kindly refer me for these positions? I’d truly appreciate your support.
+Thanks,
+Yogesh Rahangdale
+
+
+
+✅ Email Version (Formal with Summary)
+Subject: Request for Referral – Software Engineer Role at Microsoft
+
+Hi 
+I hope you’re doing well. I came across opportunities for the Software Engineer role at Microsoft that align closely with my skills and career aspirations.
+I have over 3 years of experience at Capgemini, where I worked extensively on Java, Spring Boot, Microservices, PostgreSQL, 
+Docker, CI/CD pipelines, and Cloud platforms (AWS, Azure, GCP). 
+These experiences have equipped me with strong problem-solving abilities and hands-on expertise in building scalable enterprise applications.
+
+Job IDs: [Add Job IDs here]
+If possible, could you kindly refer me for these positions?  I would greatly appreciate your support and guidance in this process.
+Thank you for your time and help.
+Best regards,
+Yogesh Rahangdale
+
+
+
